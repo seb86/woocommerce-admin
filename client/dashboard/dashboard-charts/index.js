@@ -17,9 +17,7 @@ import {
 	MenuTitle,
 	SectionHeader,
 } from '@woocommerce/components';
-import {
-	useUserPreferences,
-} from '@woocommerce/data';
+import { useUserPreferences } from '@woocommerce/data';
 import { getAllowedIntervalsForQuery } from 'lib/date';
 
 /**
@@ -42,13 +40,10 @@ const renderChartToggles = ( { hiddenBlocks, onToggleHiddenBlock } ) => {
 				key={ chart.endpoint + '_' + chart.key }
 				onInvoke={ () => {
 					onToggleHiddenBlock( key )();
-					recordEvent(
-						'dash_charts_chart_toggle',
-						{
-							status: checked ? 'off' : 'on',
-							key,
-						}
-					);
+					recordEvent( 'dash_charts_chart_toggle', {
+						status: checked ? 'off' : 'on',
+						key,
+					} );
 				} }
 			>
 				{ chart.label }
@@ -133,8 +128,12 @@ const DashboardCharts = ( props ) => {
 		titleInput,
 	} = props;
 	const { updateUserPreferences, ...userPrefs } = useUserPreferences();
-	const [ chartType, setChartType ] = useState( userPrefs.dashboard_chart_type || 'line' );
-	const [ chartInterval, setChartInterval ] = useState( userPrefs.dashboard_chart_interval || 'day' );
+	const [ chartType, setChartType ] = useState(
+		userPrefs.dashboard_chart_type || 'line'
+	);
+	const [ chartInterval, setChartInterval ] = useState(
+		userPrefs.dashboard_chart_interval || 'day'
+	);
 	const query = { ...props.query, chartType, interval: chartInterval };
 
 	const handleTypeToggle = ( type ) => {
@@ -159,7 +158,10 @@ const DashboardCharts = ( props ) => {
 					<MenuTitle>
 						{ __( 'Charts', 'woocommerce-admin' ) }
 					</MenuTitle>
-					{ renderChartToggles( { hiddenBlocks, onToggleHiddenBlock } ) }
+					{ renderChartToggles( {
+						hiddenBlocks,
+						onToggleHiddenBlock,
+					} ) }
 					{ window.wcAdminFeatures[
 						'analytics-dashboard/customizable'
 					] && (
@@ -195,7 +197,11 @@ const DashboardCharts = ( props ) => {
 				menu={ renderMenu() }
 				className={ 'has-interval-select' }
 			>
-				{ renderIntervalSelector( { chartInterval, setInterval, query } ) }
+				{ renderIntervalSelector( {
+					chartInterval,
+					setInterval,
+					query,
+				} ) }
 				<NavigableMenu
 					className="woocommerce-chart__types"
 					orientation="horizontal"
@@ -210,10 +216,7 @@ const DashboardCharts = ( props ) => {
 									query.chartType === 'line',
 							}
 						) }
-						title={ __(
-							'Line chart',
-							'woocommerce-admin'
-						) }
+						title={ __( 'Line chart', 'woocommerce-admin' ) }
 						aria-checked={ query.chartType === 'line' }
 						role="menuitemradio"
 						tabIndex={ query.chartType === 'line' ? 0 : -1 }
