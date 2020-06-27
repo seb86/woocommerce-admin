@@ -157,7 +157,11 @@ function getLinkTypeAndHref( item ) {
 function getListItems( props ) {
 	return getItems( props ).map( ( item ) => {
 		return {
-			title: <Text as="div" variant="button">{ item.title }</Text>,
+			title: (
+				<Text as="div" variant="button">
+					{ item.title }
+				</Text>
+			),
 			before: <Icon icon={ item.icon } />,
 			after: <Icon icon={ chevronRight } />,
 			...getLinkTypeAndHref( item ),
