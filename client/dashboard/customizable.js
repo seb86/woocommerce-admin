@@ -79,10 +79,6 @@ const CustomizableDashboard = ( {
 	taskListComplete,
 	taskListHidden,
 } ) => {
-	const {
-		isRequesting,
-		updateUserPreferences,
-		...userPrefs
 	const { updateUserPreferences, ...userPrefs } = useUserPreferences();
 
 	const sections = mergeSectionsWithDefaults( userPrefs.dashboard_sections );
