@@ -7,7 +7,7 @@ import { ENTER } from '@wordpress/keycodes';
 import PropTypes from 'prop-types';
 
 /**
- * WooCommerce dependencies
+ * Internal dependencies
  */
 import Link from '../link';
 
