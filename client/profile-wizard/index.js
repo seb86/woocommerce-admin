@@ -37,7 +37,7 @@ import './style.scss';
 class ProfileWizard extends Component {
 	constructor( props ) {
 		super( props );
-		this.activePlugins = props.activePlugins;
+		this.cachedActivePlugins = props.activePlugins;
 		this.goToNextStep = this.goToNextStep.bind( this );
 	}
 
@@ -72,7 +72,7 @@ class ProfileWizard extends Component {
 	}
 
 	componentDidMount() {
-		const { profileItems, updateProfileItems } = this.props;
+		const { activePlugins, profileItems, updateProfileItems } = this.props;
 
 		document.body.classList.remove( 'woocommerce-admin-is-loading' );
 		document.documentElement.classList.remove( 'wp-toolbar' );
@@ -86,8 +86,8 @@ class ProfileWizard extends Component {
 
 		// Track plugins if already installed.
 		if (
-			this.activePlugins.includes( 'woocommerce-services' ) &&
-			this.activePlugins.includes( 'jetpack' ) &&
+			activePlugins.includes( 'woocommerce-services' ) &&
+			activePlugins.includes( 'jetpack' ) &&
 			profileItems.plugins !== 'already-installed'
 		) {
 			recordEvent(
@@ -107,7 +107,8 @@ class ProfileWizard extends Component {
 	}
 
 	getSteps() {
-		const { profileItems } = this.props;
+		const { profileItems, query } = this.props;
+		const { step } = query;
 		const steps = [];
 
 		steps.push( {
@@ -152,8 +153,9 @@ class ProfileWizard extends Component {
 		} );
 
 		if (
-			! this.activePlugins.includes( 'woocommerce-services' ) ||
-			! this.activePlugins.includes( 'jetpack' )
+			! this.cachedActivePlugins.includes( 'woocommerce-services' ) ||
+			! this.cachedActivePlugins.includes( 'jetpack' ) ||
+			step === 'benefits'
 		) {
 			steps.push( {
 				key: 'benefits',
@@ -175,6 +177,7 @@ class ProfileWizard extends Component {
 	}
 
 	async goToNextStep() {
+		const { activePlugins } = this.props;
 		const currentStep = this.getCurrentStep();
 		const currentStepIndex = this.getSteps().findIndex(
 			( s ) => s.key === currentStep.key
@@ -183,6 +186,10 @@ class ProfileWizard extends Component {
 		recordEvent( 'storeprofiler_step_complete', {
 			step: currentStep.key,
 		} );
+
+		// Update the activePlugins cache in case plugins were installed
+		// in the current step that affect the visibility of the next step.
+		this.cachedActivePlugins = activePlugins;
 
 		const nextStep = this.getSteps()[ currentStepIndex + 1 ];
 		if ( typeof nextStep === 'undefined' ) {
@@ -195,6 +202,7 @@ class ProfileWizard extends Component {
 
 	completeProfiler() {
 		const {
+			activePlugins,
 			getJetpackConnectUrl,
 			getPluginsError,
 			isJetpackConnected,
@@ -204,7 +212,7 @@ class ProfileWizard extends Component {
 		} = this.props;
 		recordEvent( 'storeprofiler_complete' );
 		const shouldConnectJetpack =
-			this.activePlugins.includes( 'jetpack' ) && ! isJetpackConnected;
+			activePlugins.includes( 'jetpack' ) && ! isJetpackConnected;
 
 		const profilerNote = notes.find(
 			( note ) => note.name === 'wc-admin-onboarding-profiler-reminder'
