@@ -16,6 +16,7 @@ import {
 	PLUGINS_STORE_NAME,
 	withPluginsHydration,
 } from '@woocommerce/data';
+import { getAdminLink } from '@woocommerce/wc-admin-settings';
 
 /**
  * Internal dependencies
@@ -85,6 +86,8 @@ class ProfileWizard extends Component {
 		recordEvent( 'storeprofiler_step_view', {
 			step: this.getCurrentStep().key,
 		} );
+
+		updateProfileItems( { skipped: false, step: this.getCurrentStep().key } );
 
 		// Track plugins if already installed.
 		if (
@@ -215,10 +218,13 @@ class ProfileWizard extends Component {
 		}
 	}
 
-	skipProfiler() {
+	async skipProfiler() {
 		const { updateProfileItems } = this.props;
-		updateProfileItems( { skipped: true } );
+		await updateProfileItems( { skipped: true, step: this.getCurrentStep().key } );
 		recordEvent( 'wcadmin_storeprofiler_store_details_skip' );
+		window.location = getAdminLink(
+			'admin.php?page=wc-admin'
+		);
 	}
 
 	render() {

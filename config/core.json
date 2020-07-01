@@ -13,6 +13,7 @@
 	  	"shipping-label-banner": true,
 		"store-alerts": true,
 		"wcpay": true,
-		"homescreen": true
+		"homescreen": true,
+		"profiler": true
 	}
 }
