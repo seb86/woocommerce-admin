@@ -119,16 +119,19 @@ class ActivityPanel extends Component {
 
 		// Don't show the inbox on the Home screen.
 		const { location } = getHistory();
-		const showInbox = isEmbedded || ! window.wcAdminFeatures.homescreen || location.pathname !== '/';
+		const showInbox =
+			isEmbedded ||
+			! window.wcAdminFeatures.homescreen ||
+			location.pathname !== '/';
 
 		return [
 			showInbox
 				? {
-					name: 'inbox',
-					title: __( 'Inbox', 'woocommerce-admin' ),
-					icon: <i className="material-icons-outlined">inbox</i>,
-					unread: hasUnreadNotes,
-				}
+						name: 'inbox',
+						title: __( 'Inbox', 'woocommerce-admin' ),
+						icon: <i className="material-icons-outlined">inbox</i>,
+						unread: hasUnreadNotes,
+				  }
 				: null,
 			{
 				name: 'orders',
@@ -331,7 +334,7 @@ export default compose(
 		const hasUnreadOrders = getUnreadOrders( select );
 		const hasUnreadStock = getUnreadStock();
 		const hasUnapprovedReviews = getUnapprovedReviews( select );
-	
+
 		return {
 			hasUnreadNotes,
 			hasUnreadOrders,
