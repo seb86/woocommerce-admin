@@ -15,7 +15,6 @@ import { updateQueryString } from '@woocommerce/navigation';
  * Internal dependencies
  */
 import Appearance from './tasks/appearance';
-import Connect from './tasks/connect';
 import { getProductIdsForCart } from 'dashboard/utils';
 import Products from './tasks/products';
 import Shipping from './tasks/shipping';
@@ -64,11 +63,9 @@ export function getAllTasks( {
 
 	const {
 		completed: profilerCompleted,
-		items_purchased: itemsPurchased,
 		product_types: productTypes,
 		skipped: profilerSkipped,
 		step: profilerStep,
-		wccom_connected: wccomConnected,
 	} = profileItems;
 
 	const tasks = [
@@ -102,23 +99,6 @@ export function getAllTasks( {
 			visible: productIds.length,
 			completed: productIds.length && ! remainingProductIds.length,
 			time: __( '2 minutes', 'woocommerce-admin' ),
-		},
-		{
-			key: 'connect',
-			title: __(
-				'Connect your store to WooCommerce.com',
-				'woocommerce-admin'
-			),
-			container: <Connect query={ query } />,
-			onClick: () => {
-				recordEvent( 'tasklist_click', {
-					task_name: 'connect',
-				} );
-				updateQueryString( { task: 'connect' } );
-			},
-			visible: itemsPurchased && ! wccomConnected,
-			completed: wccomConnected,
-			time: __( '1 minute', 'woocommerce-admin' ),
 		},
 		{
 			key: 'products',
