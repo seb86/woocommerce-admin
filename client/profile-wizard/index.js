@@ -10,7 +10,7 @@ import { withDispatch } from '@wordpress/data';
 /**
  * WooCommerce dependencies
  */
-import { updateQueryString } from '@woocommerce/navigation';
+import { getHistory, updateQueryString } from '@woocommerce/navigation';
 import {
 	ONBOARDING_STORE_NAME,
 	PLUGINS_STORE_NAME,
@@ -228,7 +228,8 @@ class ProfileWizard extends Component {
 			step: this.getCurrentStep().key,
 		} );
 		recordEvent( 'storeprofiler_store_details_skip' );
-		window.location = getAdminLink( 'admin.php?page=wc-admin' );
+		const href = getAdminLink( 'admin.php?page=wc-admin' );
+		getHistory().push( href );
 	}
 
 	render() {
