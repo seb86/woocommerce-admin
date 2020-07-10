@@ -36,6 +36,7 @@ class DataStore extends \WC_Data_Store_WP implements \WC_Object_Data_Store_Inter
 			'layout'       => $note->get_layout(),
 			'image'        => $note->get_image(),
 			'is_deleted'   => (int) $note->get_is_deleted(),
+			'style'        => $note->get_style(),
 		);
 
 		$note_to_be_inserted['content_data']  = wp_json_encode( $note->get_content_data() );
@@ -112,6 +113,7 @@ class DataStore extends \WC_Data_Store_WP implements \WC_Object_Data_Store_Inter
 			$note->set_date_reminder( $note_row->date_reminder );
 			$note->set_is_snoozable( $note_row->is_snoozable );
 			$note->set_layout( $note_row->layout );
+			$note->set_style( $note_row->style );
 			$note->set_image( $note_row->image );
 			$this->read_actions( $note );
 			$note->read_meta_data();
@@ -164,6 +166,7 @@ class DataStore extends \WC_Data_Store_WP implements \WC_Object_Data_Store_Inter
 					'date_reminder' => $date_reminder_to_db,
 					'is_snoozable'  => $note->get_is_snoozable(),
 					'layout'        => $note->get_layout(),
+					'style'         => $note->get_style(),
 					'image'         => $note->get_image(),
 					'is_deleted'    => $note->get_is_deleted(),
 				),
@@ -342,7 +345,7 @@ class DataStore extends \WC_Data_Store_WP implements \WC_Object_Data_Store_Inter
 
 		$query = $wpdb->prepare(
 			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			"SELECT note_id, title, content, layout, image FROM {$wpdb->prefix}wc_admin_notes WHERE 1=1{$where_clauses} ORDER BY {$args['orderby']} {$args['order']} LIMIT %d, %d",
+			"SELECT note_id, title, content, layout, style, image FROM {$wpdb->prefix}wc_admin_notes WHERE 1=1{$where_clauses} ORDER BY {$args['orderby']} {$args['order']} LIMIT %d, %d",
 			$offset,
 			$args['per_page']
 		);

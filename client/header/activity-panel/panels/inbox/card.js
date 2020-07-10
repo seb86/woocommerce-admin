@@ -284,6 +284,7 @@ class InboxNoteCard extends Component {
 			layout,
 			status,
 			title,
+			style,
 		} = note;
 
 		if ( isDeleted ) {
@@ -296,7 +297,7 @@ class InboxNoteCard extends Component {
 			new Date( dateCreatedGmt + 'Z' ).getTime() > lastRead;
 		const date = dateCreated;
 		const hasImage = layout !== 'plain' && layout !== '';
-		const cardClassName = classnames( 'woocommerce-inbox-message', layout, {
+		const cardClassName = classnames( 'woocommerce-inbox-message', layout, style, {
 			'message-is-unread': unread && status === 'unactioned',
 		} );
 
@@ -359,6 +360,7 @@ InboxNoteCard.propTypes = {
 		layout: PropTypes.string,
 		image: PropTypes.string,
 		is_deleted: PropTypes.bool,
+		style: PropTypes.string,
 	} ),
 	lastRead: PropTypes.number,
 };

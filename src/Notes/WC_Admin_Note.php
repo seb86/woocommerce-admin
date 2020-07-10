@@ -65,6 +65,7 @@ class WC_Admin_Note extends \WC_Data {
 			'is_snoozable'  => false,
 			'actions'       => array(),
 			'layout'        => 'plain',
+			'style'         => '',
 			'image'         => '',
 			'is_deleted'    => false,
 		);
@@ -299,6 +300,16 @@ class WC_Admin_Note extends \WC_Data {
 	 */
 	public function get_layout( $context = 'view' ) {
 		return $this->get_prop( 'layout', $context );
+	}
+
+	/**
+	 * Get note style (if any).
+	 *
+	 * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+	 * @return array
+	 */
+	public function get_style( $context = 'view' ) {
+		return $this->get_prop( 'style', $context );
 	}
 
 	/**
@@ -544,6 +555,15 @@ class WC_Admin_Note extends \WC_Data {
 		} else {
 			$this->error( 'admin_note_invalid_data', __( 'The admin note layout has a wrong prop value.', 'woocommerce-admin' ) );
 		}
+	}
+
+	/**
+	 * Set note style.
+	 *
+	 * @param string $style Note style.
+	 */
+	public function set_style( $style ) {
+		$this->set_prop( 'style', $style );
 	}
 
 	/**

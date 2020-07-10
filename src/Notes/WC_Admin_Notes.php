@@ -55,6 +55,7 @@ class WC_Admin_Notes {
 			$notes[ $note_id ]['date_reminder'] = $note->get_date_reminder( $context );
 			$notes[ $note_id ]['actions']       = $note->get_actions( $context );
 			$notes[ $note_id ]['layout']        = $note->get_layout( $context );
+			$notes[ $note_id ]['style']         = $note->get_style( $context );
 			$notes[ $note_id ]['image']         = $note->get_image( $context );
 			$notes[ $note_id ]['is_deleted']    = $note->get_is_deleted( $context );
 		}
